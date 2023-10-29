@@ -3,7 +3,7 @@ import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
 
-export const runtime = 'edge';
+export const dynamic = "force-static";
 
 export const metadata = {
   title: 'Mantine Next.js template',
