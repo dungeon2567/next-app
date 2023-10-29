@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
-    "start": "next start"
+    "start": "next start",
+    "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@mantine/core": "7.1.7",
