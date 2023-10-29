@@ -3,10 +3,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer({
+  output: 'export',
   reactStrictMode: false,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
