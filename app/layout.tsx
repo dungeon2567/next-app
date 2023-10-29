@@ -4,6 +4,7 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
 
 export const dynamic = "force-static";
+export const runtime = "nodejs";
 
 export const metadata = {
   title: 'Mantine Next.js template',
