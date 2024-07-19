@@ -15,6 +15,7 @@ import {
     Collapse,
     ScrollArea,
     rem,
+    Container,
     useMantineTheme,
   } from '@mantine/core';
   import { MantineLogo } from '@mantinex/mantine-logo';
@@ -87,7 +88,7 @@ import {
     ));
   
     return (
-      <Box pb={120}>
+      <Container pb={120}>
         <header className={classes.header}>
           <Group justify="space-between" h="100%">
             <MantineLogo size={30} />
@@ -199,6 +200,6 @@ import {
             </Group>
           </ScrollArea>
         </Drawer>
-      </Box>
+      </Container>
     );
   }
