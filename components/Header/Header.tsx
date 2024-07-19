@@ -1,5 +1,7 @@
 import cx from 'clsx';
 
+import { useIsMobile } from "@lib/lib";
+
 import {
     HoverCard,
     Group,
@@ -44,6 +46,8 @@ import {
 } from '@tabler/icons-react';
 import classes from './Header.module.css';
 import { useState } from 'react';
+
+import { usePathname } from 'next/navigation'
 
 const mockdata = [
     {
@@ -91,7 +95,7 @@ export function Header() {
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const theme = useMantineTheme();
 
-    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+    const isMobile = useIsMobile();
 
     const closeUserMenu = () => {
         setUserMenuOpened(false);

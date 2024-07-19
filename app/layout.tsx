@@ -18,11 +18,6 @@ export default function RootLayout({ children }) {
       <body>
         <MantineProvider theme={theme}>          <AppShell
           header={{ height: 60 }}
-          navbar={{
-            width: 300,
-            breakpoint: 'sm',
-            collapsed: { mobile: false },
-          }}
           padding="md"
         >
           <AppShellHeader>
@@ -30,7 +25,8 @@ export default function RootLayout({ children }) {
           </AppShellHeader>
 
           <AppShellMain>{children}</AppShellMain>
-        </AppShell></MantineProvider>
+        </AppShell>
+        </MantineProvider>
       </body>
     </html>
   );
