@@ -273,7 +273,7 @@ export function Header() {
                 zIndex={1000000}
             >
                 <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-                    <Divider my="sm" />
+                    <Divider mb="sm"  />
 
                     <a href="#" className={classes.link}>
                         Home
