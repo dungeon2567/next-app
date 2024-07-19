@@ -21,8 +21,7 @@ import {
     Container,
     useMantineTheme,
     Menu,
-    Avatar,
-    MediaQuery
+    Avatar
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
