@@ -1,9 +1,9 @@
 import { Image, Container, Title, Button, Group, Text, List, ListItem, ThemeIcon, rem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import image from './image.svg';
-import classes from './Welcome.module.css';
+import classes from './Home.module.css';
 
-export function Welcome() {
+export function Home() {
   return (
     <Container size="md">
       <div className={classes.inner}>
