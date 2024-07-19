@@ -1,6 +1,4 @@
-'use client'
-
-import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem } from '@mantine/core';
+import { Image, Container, Title, Button, Group, Text, List, ListItem, ThemeIcon, rem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import image from './image.svg';
 import classes from './Welcome.module.css';
@@ -28,18 +26,18 @@ export function Welcome() {
               </ThemeIcon>
             }
           >
-            <List.Item>
+            <ListItem>
               <b>TypeScript based</b> – build type safe applications, all components and hooks
               export types
-            </List.Item>
-            <List.Item>
+            </ListItem>
+            <ListItem>
               <b>Free and open source</b> – all packages have MIT license, you can use Mantine in
               any project
-            </List.Item>
-            <List.Item>
+            </ListItem>
+            <ListItem>
               <b>No annoying focus ring</b> – focus ring will appear only when user navigates with
               keyboard
-            </List.Item>
+            </ListItem>
           </List>
 
           <Group mt={30}>
