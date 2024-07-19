@@ -22,9 +22,10 @@ import {
     useMantineTheme,
     Menu,
     Avatar,
+    MediaQuery
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import {
     IconNotification,
     IconCode,
@@ -90,6 +91,8 @@ export function Header() {
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const theme = useMantineTheme();
+
+    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
     const closeUserMenu = () => {
         setUserMenuOpened(false);
@@ -219,7 +222,7 @@ export function Header() {
                         </a>
                     </Group>
 
-                    <Group visibleFrom="sm">
+                    {!isMobile && <Group>
                         <Menu
                             width={260}
                             position="bottom-end"
@@ -245,9 +248,9 @@ export function Header() {
                                 {MenuItems()}
                             </Menu.Dropdown>
                         </Menu>
-                    </Group>
+                    </Group>}
 
-                    <Group hiddenFrom="sm">
+                    {isMobile && <Group>
 
                         <UnstyledButton
                             className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
@@ -259,7 +262,7 @@ export function Header() {
                                 <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
                             </Group>
                         </UnstyledButton>
-                    </Group>
+                    </Group>}
                 </Group>
             </header>
 
@@ -273,7 +276,7 @@ export function Header() {
                 zIndex={1000000}
             >
                 <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-                    <Divider mb="sm"  />
+                    <Divider mb="sm" />
 
                     <a href="#" className={classes.link}>
                         Home
@@ -299,64 +302,68 @@ export function Header() {
                 </ScrollArea>
             </Drawer>
 
-            <Drawer
-                opened={userMenuOpened}
-                onClose={closeUserMenu}
-                size="100%"
-                padding="md"
-                position="right"
-                title={<UnstyledButton
-                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+            {
+                isMobile &&
+                <Drawer
+                    opened={userMenuOpened}
+                    onClose={closeUserMenu}
+                    size="100%"
+                    padding="md"
+                    position="right"
+                    hiddenFrom="sm"
+                    title={<UnstyledButton
+                        className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                    >
+                        <Group gap={7}>
+                            <Avatar src={user.image} alt={user.name} size={32} />
+                            <Text fw={500} size="sm" lh={1} mr={3}>
+                                {user.name}
+                            </Text>
+                        </Group>
+                    </UnstyledButton>}
+                    zIndex={1000000}
                 >
-                    <Group gap={7}>
-                        <Avatar src={user.image} alt={user.name} size={32} />
-                        <Text fw={500} size="sm" lh={1} mr={3}>
-                            {user.name}
+                    <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+                        <Divider mb="sm" />
+
+                        <Text size="sm" ml="sm" fw={500} c="dimmed">
+                            Settings
                         </Text>
-                    </Group>
-                </UnstyledButton>}
-                hiddenFrom="sm"
-                zIndex={1000000}
-            >
-                <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-                    <Divider mb="sm" />
 
-                    <Text size="sm" ml="sm" fw={500} c="dimmed">
-                        Settings
-                    </Text>
+                        <NavLink
+                            href="#required-for-focus"
+                            label="Account settings"
+                            leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                        />
 
-                    <NavLink
-                        href="#required-for-focus"
-                        label="Account settings"
-                        leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                    />
+                        <NavLink
+                            href="#required-for-focus"
+                            label="Change account"
+                            leftSection={<IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                        />
 
-                    <NavLink
-                        href="#required-for-focus"
-                        label="Change account"
-                        leftSection={<IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                    />
+                        <NavLink
+                            href="#required-for-focus"
+                            label="Logout"
+                            leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                        />
 
-                    <NavLink
-                        href="#required-for-focus"
-                        label="Logout"
-                        leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                    />
+                        <Divider mb="sm" />
 
-                    <Divider mb="sm" />
+                        <Text size="sm" ml="sm" fw={500} c="dimmed">
+                            Danger Zone
+                        </Text>
 
-                    <Text size="sm" ml="sm" fw={500} c="dimmed">
-                        Danger Zone
-                    </Text>
+                        <NavLink
+                            href="#required-for-focus"
+                            color="red"
+                            label="Delete account"
+                            leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                        />
+                    </ScrollArea>
+                </Drawer>
+            }
 
-                    <NavLink
-                        href="#required-for-focus"
-                        color="red"
-                        label="Delete account"
-                        leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                    />
-                </ScrollArea>
-            </Drawer>
         </Container>
     );
 }
