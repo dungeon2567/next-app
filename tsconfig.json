@@ -3,7 +3,13 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "webworker"
+    ],
+    "types": [
+      // Other types...
+      // This allows Serwist to type `window.serwist`.
+      "@serwist/next/typings"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,8 +32,8 @@
       "@/components/*": [
         "components/*"
       ],
-      "@lib/*": [
-        "lib/*"
+      "@lib": [
+        "lib/lib"
       ]
     },
     "target": "ES2017"
@@ -39,6 +45,7 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "public/sw.js"
   ]
 }

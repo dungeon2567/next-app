@@ -1,7 +1,7 @@
 import cx from 'clsx';
 
-import { useIsMobile } from "@lib/lib";
-
+import { useIsMobile, useUser } from "@lib";
+import Link from 'next/link'
 import {
     HoverCard,
     Group,
@@ -26,7 +26,7 @@ import {
     Avatar
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import {
     IconNotification,
     IconCode,
@@ -46,8 +46,7 @@ import {
 } from '@tabler/icons-react';
 import classes from './Header.module.css';
 import { useState } from 'react';
-
-import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 const mockdata = [
     {
@@ -82,12 +81,13 @@ const mockdata = [
     },
 ];
 
+/*
 const user = {
     name: 'Jane Spoonfighter',
     email: 'janspoon@fighter.dev',
     image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
 };
-
+*/
 
 export function Header() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
@@ -95,7 +95,10 @@ export function Header() {
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const theme = useMantineTheme();
 
+    const router = useRouter();
+
     const isMobile = useIsMobile();
+    const user = useUser();
 
     const closeUserMenu = () => {
         setUserMenuOpened(false);
@@ -161,18 +164,18 @@ export function Header() {
     ));
 
     return (
-        <Container pb={120} px={0}>
+        <Container px={0}>
             <header className={classes.header}>
                 <Group justify="space-between" h="100%">
                     <Group>
-                        <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+                        {isMobile && <Burger opened={drawerOpened} onClick={toggleDrawer} />}
                         <MantineLogo size={30} />
                     </Group>
 
-                    <Group h="100%" gap={0} visibleFrom="sm">
-                        <a href="#" className={classes.link}>
+                    {!isMobile && <Group h="100%" gap={0}>
+                        <Link href="/" className={classes.link}>
                             Home
-                        </a>
+                        </Link>
                         <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
                             <HoverCard.Target>
                                 <a href="#" className={classes.link}>
@@ -223,37 +226,47 @@ export function Header() {
                         <a href="#" className={classes.link}>
                             Academy
                         </a>
-                    </Group>
-
-                    {!isMobile && <Group>
-                        <Menu
-                            width={260}
-                            position="bottom-end"
-                            transitionProps={{ transition: 'pop-top-right' }}
-                            onClose={() => setUserMenuOpened(false)}
-                            onOpen={() => setUserMenuOpened(true)}
-                            withinPortal
-                        >
-                            <Menu.Target>
-                                <UnstyledButton
-                                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                                >
-                                    <Group gap={7}>
-                                        <Avatar src={user.image} alt={user.name} size={32} />
-                                        <Text fw={500} size="sm" lh={1} mr={3}>
-                                            {user.name}
-                                        </Text>
-                                        <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
-                                    </Group>
-                                </UnstyledButton>
-                            </Menu.Target>
-                            <Menu.Dropdown>
-                                {MenuItems()}
-                            </Menu.Dropdown>
-                        </Menu>
                     </Group>}
 
-                    {isMobile && <Group>
+                    {!isMobile && user &&
+                        <Group>
+                            <Menu
+                                width={260}
+                                position="bottom-end"
+                                transitionProps={{ transition: 'pop-top-right' }}
+                                onClose={() => setUserMenuOpened(false)}
+                                onOpen={() => setUserMenuOpened(true)}
+                                withinPortal
+                            >
+                                <Menu.Target>
+                                    <Button className={cx(classes.user, { [classes.userActive]: userMenuOpened })} variant="light">
+                                        <Group gap={7}>
+                                            <Avatar src={user.image} alt={user.name} size={32} />
+                                            <Text fw={500} size="sm" lh={1} mr={3}>
+                                                {user.name}
+                                            </Text>
+                                            <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+                                        </Group>
+                                    </Button>
+                                </Menu.Target>
+                                <Menu.Dropdown>
+                                    {MenuItems()}
+                                </Menu.Dropdown>
+                            </Menu>
+                        </Group>
+                    }
+
+                    {!isMobile && !user &&
+                        <Group>
+
+                            <Button component={Link} href={"/signin"}>
+                                Sign in
+                            </Button>
+
+                        </Group>
+                    }
+
+                    {isMobile && user && <Group>
 
                         <UnstyledButton
                             className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
@@ -306,7 +319,7 @@ export function Header() {
             </Drawer>
 
             {
-                isMobile &&
+                isMobile && user &&
                 <Drawer
                     opened={userMenuOpened}
                     onClose={closeUserMenu}
@@ -314,16 +327,14 @@ export function Header() {
                     padding="md"
                     position="right"
                     hiddenFrom="sm"
-                    title={<UnstyledButton
-                        className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                    >
+                    title={<Button className={cx(classes.user, { [classes.userActive]: userMenuOpened })} variant="light">
                         <Group gap={7}>
                             <Avatar src={user.image} alt={user.name} size={32} />
                             <Text fw={500} size="sm" lh={1} mr={3}>
                                 {user.name}
                             </Text>
                         </Group>
-                    </UnstyledButton>}
+                    </Button>}
                     zIndex={1000000}
                 >
                     <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
@@ -367,6 +378,6 @@ export function Header() {
                 </Drawer>
             }
 
-        </Container>
+        </Container >
     );
 }

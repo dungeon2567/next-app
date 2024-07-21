@@ -1,32 +1,46 @@
-"use client";
+"use client"
+
 import '@mantine/core/styles.css';
 import { Header } from '../components/Header/Header';
-import { AppShell, AppShellHeader, AppShellMain, MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { AppShell, AppShellHeader, AppShellMain, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 
+import { SessionContextProvider } from '@lib';
+import { SWRConfig } from 'swr';
+import Head from './head';
+import { useState } from 'react';
+
 export default function RootLayout({ children }) {
+  const [users, setUsers] = useState([])
+
   return (
     <html lang="en">
-      <head>
-        <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
-      </head>
-      <body>
-        <MantineProvider theme={theme}>          <AppShell
-          header={{ height: 60 }}
-          padding="md"
-        >
-          <AppShellHeader>
-            <Header />
-          </AppShellHeader>
+      <Head/>
 
-          <AppShellMain>{children}</AppShellMain>
-        </AppShell>
-        </MantineProvider>
+      <body>
+        <SessionContextProvider>
+          <SWRConfig
+            value={{
+              revalidateIfStale: false,
+              revalidateOnFocus: false,
+            }}
+          >
+            <MantineProvider theme={theme}>
+              <AppShell
+                header={{ height: 60 }}
+                padding="md"
+              >
+                <AppShellHeader>
+                  <Header />
+                </AppShellHeader>
+
+                <AppShellMain>
+                    {children}
+                </AppShellMain>
+              </AppShell>
+            </MantineProvider>
+          </SWRConfig>
+        </SessionContextProvider>
       </body>
     </html>
   );
