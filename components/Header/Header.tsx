@@ -164,7 +164,7 @@ export function Header() {
     ));
 
     return (
-        <Container px={0}>
+        <Container px={"md"}>
             <header className={classes.header}>
                 <Group justify="space-between" h="100%">
                     <Group>
